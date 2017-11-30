@@ -1,6 +1,6 @@
 import React from 'react';
 
-import CTARoute from './cta-route'
+import CTARoute from './ctaRoute'
 
 import axios from 'axios';
 
