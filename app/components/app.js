@@ -1,6 +1,8 @@
 import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import CTARoute from './ctaRoute'
+import AllRoutes from './allRoutes'
+import BusRoute from './busRoute';
 
 import axios from 'axios';
 
@@ -17,14 +19,15 @@ class App extends React.Component {
     fetchData = () => {
         axios.get('http://www.ctabustracker.com/bustime/api/v2/getroutes?key=mfZVaeUXL5HctzzxpFGyd5FNX&format=json')
             .then((res) => {
-				console.log(res.data['bustime-response'].routes);
                 this.setState({
                     isLoading: false,
                     routes: res.data['bustime-response'].routes
                 });
             })
             .catch((e) => {
-                console.log(e);
+                this.setState({
+                    isLoading: false
+                })
             });
     }
 
@@ -38,12 +41,20 @@ class App extends React.Component {
 
     render() {
         return (
-            <div className="routes">
-                {
-                    this.state.routes && this.state.routes.map((route, i) =>
-                        <CTARoute route={route.rt} name={route.rtnm} key={route.rt} />)
-                }
-            </div>
+            <main>
+                <Router>
+                    <Switch>
+                        <Route path={"/route/:routeid"} render={({match}) => <BusRoute match={match} /> } />
+                        <div className="routes">
+                            <h1>Choose a route</h1>
+                            {
+                                this.state.routes && this.state.routes.map((route, i) =>
+                                    <AllRoutes route={route.rt} name={route.rtnm} key={route.rt} />)
+                            }
+                        </div>
+                    </Switch>
+                </Router>
+            </main>
         );
     }
 }
