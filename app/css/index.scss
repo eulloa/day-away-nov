@@ -63,7 +63,11 @@
     $black: #000;
 
 body {
-    background: green;
     font-family: $font-family;
     font-size: 1em;
+}
+
+.routes {
+   max-width: 960px;
+   margin: 0 auto;
 }

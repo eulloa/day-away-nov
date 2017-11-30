@@ -1,9 +1,49 @@
 import React from 'react';
 
+import CTARoute from './cta-route'
+
+import axios from 'axios';
+
 class App extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            isLoading: false,
+            routes: []
+        }
+    }
+
+    fetchData = () => {
+        axios.get('http://www.ctabustracker.com/bustime/api/v2/getroutes?key=mfZVaeUXL5HctzzxpFGyd5FNX&format=json')
+            .then((res) => {
+				console.log(res.data['bustime-response'].routes);
+                this.setState({
+                    isLoading: false,
+                    routes: res.data['bustime-response'].routes
+                });
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    }
+
+    componentDidMount() {
+        this.setState({
+            isLoading: true
+        });
+
+        this.fetchData();
+    }
+
     render() {
         return (
-            <h1>Hello world!</h1>
+            <div className="routes">
+                {
+                    this.state.routes && this.state.routes.map((route, i) =>
+                        <CTARoute route={route.rt} name={route.rtnm} key={route.rt} />)
+                }
+            </div>
         );
     }
 }

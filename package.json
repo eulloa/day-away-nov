@@ -18,6 +18,7 @@
   "author": "Efren Ulloa",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.17.1",
     "react": "^15.6.1",
     "react-dom": "^15.6.1"
   },
